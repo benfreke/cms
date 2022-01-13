@@ -91,6 +91,17 @@ EOD;
         $this->assertEquals('<p>Lorem ipsum dolor sit&nbsp;amet.</p><p></p><p>Consectetur adipiscing&nbsp;elit.</p>', $this->modify($value));
     }
 
+    /** @test */
+    public function it_doesnt_add_nbsp_to_nested_list()
+    {
+        $value = '<ul>\n<li>Lorem ipsum dolor sit amet.\n<ul>\n<li>Consectetur adipiscing elit.</li>\n</ul>\n</li>\n</ul>';
+
+        $this->assertEquals(
+            '<ul><li>Lorem ipsum dolor sit&nbsp;amet.<ul><li>Consectetur adipiscing&nbsp;elit.</li></ul></li></ul>',
+            $this->modify($value)
+        );
+    }
+
     public function modify($value, $params = [])
     {
         return Modify::value($value)->widont($params)->fetch();
